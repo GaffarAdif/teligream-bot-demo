@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import './index.css';
+import { WebAppProvider } from '@vkruglikov/react-telegram-web-app';
+import App from './App';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <BrowserRouter>
+    <WebAppProvider>
       <App />
-    </BrowserRouter>
-  </React.StrictMode>
+    </WebAppProvider>
+  </BrowserRouter>
 );

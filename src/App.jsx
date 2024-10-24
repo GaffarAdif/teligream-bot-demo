@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useTelegramWebApp } from '@vkruglikov/react-telegram-web-app';
 import { Routes, Route } from 'react-router-dom';
 
 function Home() {
+  const { user } = useTelegramWebApp(); // Get user data from the Telegram context
   const [showDemo, setShowDemo] = useState(false);
-  const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
-    const tg = window.Telegram?.WebApp;
-
-    if (tg) {
-      const user = tg.initDataUnsafe?.user;
-      setUserData(user);
-    } else {
-      alert("Telegram Web App object is not available.");
-    }
-  }, []);
 
   const handleShowDemo = () => {
     setShowDemo(true);
@@ -28,13 +18,13 @@ function Home() {
       </p>
 
       {/* Display user data if available */}
-      {userData ? (
+      {user ? (
         <div className="mt-4 text-center">
           <h2 className="text-2xl font-semibold">User Data:</h2>
-          <p className="text-lg text-gray-800">First Name: {userData.first_name}</p>
-          <p className="text-lg text-gray-800">Last Name: {userData.last_name}</p>
-          <p className="text-lg text-gray-800">Username: {userData.username}</p>
-          <p className="text-lg text-gray-800">ID: {userData.id}</p>
+          <p className="text-lg text-gray-800">First Name: {user.first_name}</p>
+          <p className="text-lg text-gray-800">Last Name: {user.last_name}</p>
+          <p className="text-lg text-gray-800">Username: {user.username}</p>
+          <p className="text-lg text-gray-800">ID: {user.id}</p>
         </div>
       ) : (
         <p className="text-lg text-gray-700">Loading user data...</p>
