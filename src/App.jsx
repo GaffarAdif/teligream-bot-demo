@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 function Home() {
-  // State to manage the visibility of the demo content
   const [showDemo, setShowDemo] = useState(false);
-  const [userData, setUserData] = useState(null); // State to store user data
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const tg = window.Telegram.WebApp;
-    const user = tg.initDataUnsafe.user; // Get user data from Telegram Web App
-    setUserData(user); // Store user data in state
+    const tg = window.Telegram?.WebApp;
+
+    if (tg) {
+      const user = tg.initDataUnsafe?.user;
+      setUserData(user);
+    } else {
+      alert("Telegram Web App object is not available.");
+    }
   }, []);
 
   const handleShowDemo = () => {
@@ -24,7 +28,7 @@ function Home() {
       </p>
 
       {/* Display user data if available */}
-      {userData && (
+      {userData ? (
         <div className="mt-4 text-center">
           <h2 className="text-2xl font-semibold">User Data:</h2>
           <p className="text-lg text-gray-800">First Name: {userData.first_name}</p>
@@ -32,6 +36,8 @@ function Home() {
           <p className="text-lg text-gray-800">Username: {userData.username}</p>
           <p className="text-lg text-gray-800">ID: {userData.id}</p>
         </div>
+      ) : (
+        <p className="text-lg text-gray-700">Loading user data...</p>
       )}
 
       <button
@@ -41,7 +47,6 @@ function Home() {
         Show Demo
       </button>
 
-      {/* Conditional rendering of demo content */}
       {showDemo && (
         <div className="mt-6 text-center">
           <p className="text-lg text-gray-800">Here is the demo content!</p>
